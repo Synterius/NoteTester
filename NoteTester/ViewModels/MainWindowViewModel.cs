@@ -68,6 +68,9 @@ namespace NoteTester.ViewModels
 
         void Start()
         {
+            if (notes.Count == 0)
+                return;
+
             ItemsToShowInCanvas.Clear();
 
             // Calculation
