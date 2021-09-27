@@ -70,6 +70,7 @@
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Converters\MultiParameterConvertor.cs" />
     <Compile Include="Models\Note.cs" />
+    <Compile Include="Models\NotesComparer.cs" />
     <Compile Include="Models\NotesLine.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

@@ -46,7 +46,8 @@
             <Border Grid.Column="0" CornerRadius="10" BorderThickness="1" BorderBrush="Black" Margin="5">
                 <StackPanel>
                     <CheckBox x:Name="chOct1" Content="Октава 1" FontWeight="Bold" Margin="10 5 0 0" 
-                              VerticalContentAlignment="Center"/>
+                              VerticalContentAlignment="Center" Command="{Binding CheckBox_Oct1_SelectAll_ClicCommand}"
+                              CommandParameter="{Binding ElementName=chOct1, Path=IsChecked}"/>
                     <CheckBox x:Name="chDo1" Content="До 1" Margin="20 5 0 0" VerticalContentAlignment="Center"
                           IsChecked="{Binding ElementName=chOct1, Path=IsChecked, Mode=OneWay}"
                               Command="{Binding CheckBox_ClickCommand}">
@@ -123,35 +124,78 @@
             <Border Grid.Column="1" CornerRadius="10" BorderThickness="1" BorderBrush="Black" Margin="5">
                 <StackPanel>
                     <CheckBox x:Name="chOct2" Content="Октава 2" FontWeight="Bold" Margin="10 5 0 0" 
-                              VerticalContentAlignment="Center"/>
+                              VerticalContentAlignment="Center" Command="{Binding CheckBox_Oct2_SelectAll_ClicCommand}"
+                              CommandParameter="{Binding ElementName=chOct2, Path=IsChecked}"/>
                     <CheckBox x:Name="chDo2" Content="До 2" Margin="20 5 0 0" VerticalContentAlignment="Center"
                           IsChecked="{Binding ElementName=chOct2, Path=IsChecked, Mode=OneWay}"
-                              Command="{Binding CheckBox_ClickCommand}" 
-                              CommandParameter="{Binding ElementName=chDo2, Path=Content}"/>
+                              Command="{Binding CheckBox_ClickCommand}">
+                        <CheckBox.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiParameterConvertor}">
+                                <Binding ElementName="chDo2" Path="Content"/>
+                                <Binding ElementName="chDo2" Path="IsChecked"/>
+                            </MultiBinding>
+                        </CheckBox.CommandParameter>
+                    </CheckBox>
                     <CheckBox x:Name="chRe2" Content="Ре 2" Margin="20 5 0 0" VerticalContentAlignment="Center"
                           IsChecked="{Binding ElementName=chOct2, Path=IsChecked, Mode=OneWay}"
-                              Command="{Binding CheckBox_ClickCommand}" 
-                              CommandParameter="{Binding ElementName=chRe2, Path=Content}"/>
+                              Command="{Binding CheckBox_ClickCommand}">
+                        <CheckBox.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiParameterConvertor}">
+                                <Binding ElementName="chRe2" Path="Content"/>
+                                <Binding ElementName="chRe2" Path="IsChecked"/>
+                            </MultiBinding>
+                        </CheckBox.CommandParameter>
+                    </CheckBox>
                     <CheckBox x:Name="chMi2" Content="Ми 2" Margin="20 5 0 0" VerticalContentAlignment="Center"
                           IsChecked="{Binding ElementName=chOct2, Path=IsChecked, Mode=OneWay}"
-                              Command="{Binding CheckBox_ClickCommand}" 
-                              CommandParameter="{Binding ElementName=chMi2, Path=Content}"/>
+                              Command="{Binding CheckBox_ClickCommand}">
+                        <CheckBox.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiParameterConvertor}">
+                                <Binding ElementName="chMi2" Path="Content"/>
+                                <Binding ElementName="chMi2" Path="IsChecked"/>
+                            </MultiBinding>
+                        </CheckBox.CommandParameter>
+                    </CheckBox>
                     <CheckBox x:Name="chFa2" Content="Фа 2" Margin="20 5 0 0" VerticalContentAlignment="Center"
                           IsChecked="{Binding ElementName=chOct2, Path=IsChecked, Mode=OneWay}"
-                              Command="{Binding CheckBox_ClickCommand}" 
-                              CommandParameter="{Binding ElementName=chFa2, Path=Content}"/>
+                              Command="{Binding CheckBox_ClickCommand}">
+                        <CheckBox.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiParameterConvertor}">
+                                <Binding ElementName="chFa2" Path="Content"/>
+                                <Binding ElementName="chFa2" Path="IsChecked"/>
+                            </MultiBinding>
+                        </CheckBox.CommandParameter>
+                    </CheckBox>
                     <CheckBox x:Name="chSol2" Content="Соль 2" Margin="20 5 0 0" VerticalContentAlignment="Center"
                           IsChecked="{Binding ElementName=chOct2, Path=IsChecked, Mode=OneWay}"
-                              Command="{Binding CheckBox_ClickCommand}" 
-                              CommandParameter="{Binding ElementName=chSol2, Path=Content}"/>
+                              Command="{Binding CheckBox_ClickCommand}">
+                        <CheckBox.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiParameterConvertor}">
+                                <Binding ElementName="chSol2" Path="Content"/>
+                                <Binding ElementName="chSol2" Path="IsChecked"/>
+                            </MultiBinding>
+                        </CheckBox.CommandParameter>
+                    </CheckBox>
                     <CheckBox x:Name="chLa2" Content="Ля 2" Margin="20 5 0 0" VerticalContentAlignment="Center"
                           IsChecked="{Binding ElementName=chOct2, Path=IsChecked, Mode=OneWay}"
-                              Command="{Binding CheckBox_ClickCommand}" 
-                              CommandParameter="{Binding ElementName=chLa2, Path=Content}"/>
+                              Command="{Binding CheckBox_ClickCommand}">
+                        <CheckBox.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiParameterConvertor}">
+                                <Binding ElementName="chLa2" Path="Content"/>
+                                <Binding ElementName="chLa2" Path="IsChecked"/>
+                            </MultiBinding>
+                        </CheckBox.CommandParameter>
+                    </CheckBox>
                     <CheckBox x:Name="chSi2" Content="Си 2" Margin="20 5 0 0" VerticalContentAlignment="Center"
                           IsChecked="{Binding ElementName=chOct2, Path=IsChecked, Mode=OneWay}"
-                              Command="{Binding CheckBox_ClickCommand}" 
-                              CommandParameter="{Binding ElementName=chSi2, Path=Content}"/>
+                              Command="{Binding CheckBox_ClickCommand}">
+                        <CheckBox.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiParameterConvertor}">
+                                <Binding ElementName="chSi2" Path="Content"/>
+                                <Binding ElementName="chSi2" Path="IsChecked"/>
+                            </MultiBinding>
+                        </CheckBox.CommandParameter>
+                    </CheckBox>
                 </StackPanel>
             </Border>
         </Grid>
@@ -176,7 +220,7 @@
                     <ComboBoxItem Content="Последовательность"/>
                 </ComboBox>
             </StackPanel>
-            <Button Grid.Row="1" x:Name="bntStart" Content="Получить ноту" FontWeight="Bold" Height="30" 
+            <Button Grid.Row="1" x:Name="bntStart" Content="Начать" FontWeight="Bold" Height="30" 
                     Margin="20 0 20 0" Command="{Binding Start_ClickCommand}"/>
 
             <!--Notes growing-->
@@ -217,7 +261,7 @@
             </Canvas>
 
                 <!--Notes-->
-            <Canvas Grid.Row="2" x:Name="canvasNotes" Visibility="{Binding IsNotesVisible}">  
+            <Canvas Grid.Row="2" x:Name="canvasNotes" Visibility="{Binding IsNotesVisible}">
                 <ItemsControl ItemsSource="{Binding Path=ItemsToShowInCanvas}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -237,6 +281,35 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Canvas>
+                
+                <!--Buttons-->
+            <Grid Grid.Row="3">
+                <WrapPanel  x:Name="canvasButtons">
+                    <ItemsControl ItemsSource="{Binding Path=ButtonList}" Margin="5">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Margin" Value="4"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding}" Width="70" Height="20" FontSize="14" 
+                                        Command="{Binding DataContext.Button_CheckAnswer_ClickCommand, 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </WrapPanel>
+            </Grid>
+            
+
         </Grid>
     </Grid>
 </Window>
