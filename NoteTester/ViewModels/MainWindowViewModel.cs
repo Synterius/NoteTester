@@ -9,6 +9,8 @@ using System.Windows;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NoteTester.ViewModels
 {
@@ -16,18 +18,30 @@ namespace NoteTester.ViewModels
     {
         // Private fields
         private const int LINE_COUNT = 5;
+        private const string OK = "../Resources/ok.png";
+        private const string WRONG = "../Resources/wrong.png";
+        private double topAdditionalLength = 70;
+        private double bottomAdditionalLength = 10;
         private const double NOTE_LEFT_EDGE = 60;
+        private const double LINE_LEFT_EDGE = 10;
+        private const double OFFSET = 25;
+
         private Visibility _isTrebleСlefVisible = Visibility.Visible;
         private Visibility _isNotesVisible = Visibility.Hidden;
+        private Visibility _isMessageVisible = Visibility.Hidden;
+
+        private double _noteOffset = NOTE_LEFT_EDGE;
+        private double _lineOffset = LINE_LEFT_EDGE;
         private int _selectedIndex = 0;
         private Random random = new Random();
         private int randIndex = -1;
         private int cache;
-
-        private double topAdditionalLength = 70;
-        private double bottomAdditionalLength = 10;
+        private string _image;
+        private string _message;
+        //private bool _isDisabled = true;
 
         // Pablic properties
+        public ICommand Exit_ClickCommand { get; }
         public ICommand Start_ClickCommand { get; }
         public ICommand CheckBox_ClickCommand { get; }
         public ICommand CheckBox_Oct1_SelectAll_ClicCommand { get; }
@@ -67,17 +81,49 @@ namespace NoteTester.ViewModels
             }
         }
 
+        public string Image
+        {
+            get => _image;
+            set
+            {
+                SetProperty(ref _image, value);
+            }
+        }
+
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                SetProperty(ref _message, value);
+            }
+        }
+
+        public Visibility IsMessageVisible
+        {
+            get => _isMessageVisible;
+            set
+            {
+                SetProperty(ref _isMessageVisible, value);
+            }
+        }
+
         public MainWindowViewModel()
         {
             // Initialize commands
-            Start_ClickCommand = new BaseCommand(o => { Start(); });
-            CheckBox_ClickCommand = new BaseCommand(o => { Change(o); });
+            Exit_ClickCommand = new BaseCommand(o => { Exit(); });
+            Start_ClickCommand = new BaseCommand(o => { Start(); });    //, f => { return _isDisabled;
+            CheckBox_ClickCommand = new BaseCommand(o => { Change(o); });       //, f => { return _isDisabled;
             CheckBox_Oct1_SelectAll_ClicCommand = new BaseCommand(o => { SelectAll(o, true); });
             CheckBox_Oct2_SelectAll_ClicCommand = new BaseCommand(o => { SelectAll(o, false); });
             Button_CheckAnswer_ClickCommand = new BaseCommand(o => { CheckAnswer(o); });
-
             PresetNotes();
             SetDefaultNoteLines();
+        }
+
+        private void Exit()
+        {
+            Application.Current.MainWindow.Close();
         }
 
         private void PresetNotes()
@@ -151,11 +197,11 @@ namespace NoteTester.ViewModels
         {
             if (notes.Count == 0)
             {
-                MessageBox.Show("Не была выбрана ни одна нота!");
+                MessageBox.Show("Не была выбрана ни одна нота!", "Внимание", 
+                    MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-
-            ItemsToShowInCanvas.Clear();
+            //_isDisabled = false;
 
             // Calculation
             if(notes.Count != 1)
@@ -173,6 +219,32 @@ namespace NoteTester.ViewModels
             }
 
             Note tempNote = notes[randIndex];
+
+            if (SelectedIndex == 0)  // By one note
+            {
+                tempNote.Left = NOTE_LEFT_EDGE;
+                ItemsToShowInCanvas.Clear();
+            }
+            else    // Sequence
+            {
+                if (cache != -1)
+                {
+                    _noteOffset += OFFSET;
+                    tempNote.Left = _noteOffset;
+                }
+                if (ItemsToShowInCanvas.Count == 14)
+                {
+                    // Show result
+                    
+
+                    // Clear list
+                    ItemsToShowInCanvas.Clear();
+
+                    // Reset offsets
+                    _noteOffset = NOTE_LEFT_EDGE;
+                    _lineOffset = LINE_LEFT_EDGE;
+                }
+            }
 
             AddLine(tempNote);
 
@@ -198,13 +270,18 @@ namespace NoteTester.ViewModels
             string originalNote = notes[randIndex].Name;
             if (originalNote.Equals(parameter))
             {
-                MessageBox.Show($"Правильно! Это нота {originalNote}", "Проверка", MessageBoxButton.OK, MessageBoxImage.Information);
+                Image = OK;
+                Message = $"Верно! Это нота была {originalNote}";
+                notes[randIndex].Status = true;
             }
             else
             {
-                MessageBox.Show($"Неверно! Это была нота {originalNote}", "Проверка", MessageBoxButton.OK, MessageBoxImage.Error);
-                
+                Image = WRONG;
+                Message = $"Неверно! Это была нота {originalNote}";
+                notes[randIndex].Status = false;
             }
+
+            IsMessageVisible = Visibility.Visible;
             Start();
         }
 
@@ -226,7 +303,6 @@ namespace NoteTester.ViewModels
                             return;
                     }
 
-                    // TODO: implement mode (add offset)
                     notes.Add(originalNotes.Single(x => x.Name == name));
                 }
                 else
@@ -246,7 +322,20 @@ namespace NoteTester.ViewModels
         {
             double add_x1 = 45;
             double add_x2 = 70;
-            double left = 10;
+            double left = LINE_LEFT_EDGE;
+            
+            if(SelectedIndex == 0)
+            {
+                left = LINE_LEFT_EDGE;
+            }
+            else
+            {
+                if(left != LINE_LEFT_EDGE)
+                {
+                    _lineOffset += OFFSET;
+                    left = _lineOffset;
+                }
+            }
 
             switch (pNote.Name)
             {

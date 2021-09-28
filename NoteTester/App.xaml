@@ -4,6 +4,92 @@
              xmlns:local="clr-namespace:NoteTester"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="ButtonFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border>
+                            <Rectangle Margin="2"
+                                       StrokeThickness="2"
+                                       Stroke="#60000000"
+                                       StrokeDashArray="1 2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <!--Подстройка размеров под различные экраны устройств. Сглаживание-->
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <!--Переопределяем стандартный стиль-->
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <!--Шаблон-->
+                    <ControlTemplate TargetType="Button">
+                        <!--Контейнер для UI element и ссылка на конструируемый тип-->
+                        <Border CornerRadius="5"
+                                TextBlock.Foreground="White"
+                                BorderThickness="1"
+                                x:Name="Border">
+                            <Border.Background>
+                                <!--<SolidColorBrush Color="LightBlue"/>-->
+                                <LinearGradientBrush StartPoint="0.0, 0" EndPoint="0.0, 1">
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#479EB0" Offset="0"/>
+                                        <!--Верхняя часть градиента-->
+                                        <GradientStop Color="#2F6B99" Offset="1"/>
+                                        <!--Нижняя часть градиента-->
+                                    </GradientStopCollection>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <VisualStateManager.VisualStateGroups>
+                                <!--Контейнер для груп событий-->
+                                <VisualStateGroup x:Name="ComonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0:0:0.5"/>
+                                        <!--Стандартный переход-->
+                                        <VisualTransition GeneratedDuration="0" To="Pressed"/>
+                                        <!--Переход при нажатии-->
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <!--Контейнер для работы с кадрами-->
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).
+                                                                          (GradientBrush.GradientStops)[1].(GradientStop.Color)" 
+                                                                          Storyboard.TargetName="Border">
+                                                <!--Цветовая анимация-->
+                                                <EasingColorKeyFrame KeyTime="0" Value="CornflowerBlue"/>
+                                                <!--Функция плавности-->
+                                            </ColorAnimationUsingKeyFrames>
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).
+                                                                          (SolidColorBrush.Color)" 
+                                                                          Storyboard.TargetName="Border">
+                                                <EasingColorKeyFrame KeyTime="0" Value="CornflowerBlue"/>
+                                            </ColorAnimationUsingKeyFrames>-->
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <!--Контейнер для работы с кадрами-->
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).
+                                                                          (GradientBrush.GradientStops)[1].(GradientStop.Color)" 
+                                                                          Storyboard.TargetName="Border">
+                                                <!--Цветовая анимация-->
+                                                <EasingColorKeyFrame KeyTime="0" Value="DodgerBlue"/>
+                                                <!--Функция плавности-->
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

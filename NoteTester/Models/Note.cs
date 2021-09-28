@@ -14,5 +14,6 @@ namespace NoteTester.Models
         public string Name { get; set; }
         public double Left { get; set; }
         public double Top { get; set; }
+        public bool Status { get; set; }
     }
 }
